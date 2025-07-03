@@ -9,6 +9,23 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source\Core">
+      <UniqueIdentifier>{59c3f3c2-9ade-41f8-917d-ff34d8e0ef5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Math">
+      <UniqueIdentifier>{e53c74e5-772d-440f-9072-ddcb45bf9cf5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Random.h">
+      <Filter>Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Math.h">
+      <Filter>Source\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>Source\Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="engine.cpp">

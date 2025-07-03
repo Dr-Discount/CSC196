@@ -1,6 +1,10 @@
-#include <iostream>
+#include "Math/Math.h"  
+#include <iostream>  
 
-int main() {
-   std::cout << "Hello, World!" << std::endl;
-   return 0;
+#define NAME "Kyler\n"
+
+int main() {  
+std::cout << NAME;
+std::cout << "Hello, World!\n";
+std::cout << viper::pi << std::endl;
 }
