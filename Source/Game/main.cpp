@@ -1,26 +1,20 @@
 #include <SDL3/SDL.h>
+#include "Renderer/Renderer.h"
+#include "Core/Random.h"
+#include "Math/Math.h"
+#include "Math/Vector2.h"
 #include <iostream>
 
 int main(int argc, char* argv[]) {
-    SDL_Init(SDL_INIT_VIDEO);
+    Renderer renderer;
 
-    SDL_Window* window = SDL_CreateWindow("SDL3 Project", 1280, 1024, 0);
-    if (window == nullptr) {
-        std::cerr << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
-        SDL_Quit();
-        return 1;
-    }
-
-    SDL_Renderer* renderer = SDL_CreateRenderer(window, NULL);
-    if (renderer == nullptr) {
-        std::cerr << "SDL_CreateRenderer Error: " << SDL_GetError() << std::endl;
-        SDL_DestroyWindow(window);
-        SDL_Quit();
-        return 1;
-    }
+	renderer.Initialize();
+	renderer.CreateWindow("Viper Engine", 1280, 1024);
 
     SDL_Event e;
     bool quit = false;
+
+    vec2 v(30, 40);
 
     // Define a rectangle
     SDL_FRect greenSquare{ 270, 190, 200, 200 };
@@ -33,34 +27,26 @@ int main(int argc, char* argv[]) {
             }
         }
 
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Set render draw color to black
-        SDL_RenderClear(renderer); // Clear the renderer
+        renderer.SetColor(0, 0, 0, 255);
+        renderer.Clear();
 
-        SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255); // Set render draw color to green
-        SDL_RenderFillRect(renderer, &greenSquare); // Render the rectangle
-
-        for (int i = 0; i < 10; ++i) {
-            float x1 = 0.0f + rand() % 1280;
-            float y1 = 0.0f + rand() % 1024;
-            float x2 = 1280.0f - rand() % 1280;
-            float y2 = 1024.0f - rand() % 1024;
-            SDL_SetRenderDrawColor(renderer, rand() % 256, rand() % 256, rand() % 256, 255);
-            SDL_RenderLine(renderer, x1, y1, x2, y2);
+        renderer.SetColor(viper::random::getRandomInt(0, 255), viper::random::getRandomInt(0, 255), viper::random::getRandomInt(0, 255), 255);
+        for (int i = 0; i < 100; ++i) {
+            renderer.SetColor(viper::random::getRandomInt(0, 255), viper::random::getRandomInt(0, 255), viper::random::getRandomInt(0, 255), 255);
+            renderer.DrawLine(
+                viper::random::getRandomInt(0, 1280),
+                viper::random::getRandomInt(0, 1024),
+                viper::random::getRandomInt(0, 1280),
+                viper::random::getRandomInt(0, 1024)
+            );
+            renderer.DrawPoint(
+                viper::random::getRandomInt(0, 1280),
+                viper::random::getRandomInt(0, 1024)
+            );
         }
-
-        for (int i = 0; i < 10; ++i) {
-            int x = 0.0 + rand() % 1280;
-            int y = 0.0 + rand() % 1024;
-            SDL_SetRenderDrawColor(renderer, rand() % 256, rand() % 256, rand() % 256, 255);
-            SDL_RenderPoint(renderer, x, y);
-        }
-
-        SDL_RenderPresent(renderer); // Render the screen
+        renderer.Present();
     }
-
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
+	renderer.Shutdown();
 
     return 0;
 }
