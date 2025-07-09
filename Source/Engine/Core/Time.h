@@ -9,11 +9,11 @@ namespace viper {
 	public:
 		Time() {
 			m_startTime = clock::now();
-			m_lastTime = clock::now();
+			m_frameTime = clock::now();
 		}
 
 		void Tick();
-		void Reset() {m_startTime = clock::now();}
+		void Reset() { m_startTime = clock::now(); }
 
 		float GetTime() const { return m_time; }
 		float GetDeltaTime() const { return m_deltaTime; }
@@ -21,10 +21,8 @@ namespace viper {
 	private:
 		float m_time = 0;
 		float m_deltaTime = 0;
-		float m_frameTime = 0;
 
 		clock::time_point m_startTime;
-		clock::time_point m_lastTime;
 		clock::time_point m_frameTime;
 	};
 }

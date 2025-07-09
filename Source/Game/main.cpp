@@ -3,6 +3,7 @@
 #include "Math/Math.h"
 #include "Math/Vector2.h"
 #include "Core/Time.h"
+#include "Input/InputSystem.h"
 
 #include <SDL3/SDL.h>
 #include <iostream>
@@ -10,6 +11,8 @@
 
 int main(int argc, char* argv[]) {
     viper::Time time;
+	viper::InputSystem input;
+	input.Initialize();
 
     Renderer renderer;
 
@@ -26,19 +29,29 @@ int main(int argc, char* argv[]) {
     //vec2 v(30, 40);
 
     while (!quit) {
+		time.Tick();
         while (SDL_PollEvent(&e)) {
             if (e.type == SDL_EVENT_QUIT) {
                 quit = true;
             }
         }
 
+		input.Update();
+        if (input.GetKeyPressed(SDL_SCANCODE_A)) {
+			std::cout << "A key pressed!" << std::endl;
+		}
+        
+        if (input.GetMouseButtonDown(0)) {
+			std::cout << "left click" << std::endl;
+        }
+
         renderer.SetColor(0, 0, 0, 255);
         renderer.Clear();
 
-        vec2 speed{ 1.0f, 0 };
+        vec2 speed{ 50.0f, 0 };
 		float lenght = speed.Length();
 
-        for (vec2& star : stars) {
+        for (auto& star : stars) {
 			star = star += speed * time.GetDeltaTime();
 
 			if (star.x > 1280) star.x = 0;
