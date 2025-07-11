@@ -5,6 +5,20 @@
 
 namespace viper {  
 	class InputSystem {  
+	public:
+		enum MouseButton {
+			Left,
+			Middle,
+			Right
+		};
+
+		enum class Direction {
+			Left,
+			Right
+		};
+
+		int i = MouseButton::Right;
+
 	public:  
 		InputSystem() = default;  
 
@@ -18,8 +32,10 @@ namespace viper {
 		bool GetKeyPressed(uint8_t key) const { return m_keyboardState[key] && !m_previousKeyboardState[key]; }
 		bool GetKeyReleased(uint8_t key) const { return !m_keyboardState[key] && m_previousKeyboardState[key]; }
 
-		bool GetMouseButtonDown(uint8_t button) { assert(button < 3); return m_mouseButtonState[button]; }
-		bool GetPreviousMouseButtonDown(uint8_t button) { assert(button < 3); return m_previousMouseButtonState[button]; }
+		bool GetMouseButtonDown(MouseButton button) { return m_mouseButtonState[button]; }
+		bool GetPreviousMouseButtonDown(MouseButton button) { return m_previousMouseButtonState[button]; }
+		bool GetMouseButtonPressed(MouseButton button) { return m_mouseButtonState[button] && !m_previousMouseButtonState[button]; }
+		bool GetMouseButtonReleased(MouseButton button) { return !m_mouseButtonState[button] && m_previousMouseButtonState[button]; }
 
 		const vec2& GetMousePosition() const { return m_mousePosition; }
 		const vec2& GetPreviousMousePosition() const { return m_previousMousePosition; }

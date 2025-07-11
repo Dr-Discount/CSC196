@@ -8,8 +8,10 @@
 #include <SDL3/SDL.h>
 #include <iostream>
 #include <vector>
+#include <ranges>
 
 int main(int argc, char* argv[]) {
+    //intialize engine systems
     viper::Time time;
 	viper::InputSystem input;
 	input.Initialize();
@@ -26,7 +28,8 @@ int main(int argc, char* argv[]) {
     for (int i = 0; i < 100; ++i) {
         stars.push_back(vec2{ viper::random::getRandomFloat(0, 1280), viper::random::getRandomFloat(0, 1024), });
 	}
-    //vec2 v(30, 40);
+
+    std::vector<vec2> points;
 
     while (!quit) {
 		time.Tick();
@@ -41,12 +44,26 @@ int main(int argc, char* argv[]) {
 			std::cout << "A key pressed!" << std::endl;
 		}
         
-        if (input.GetMouseButtonDown(0)) {
-			std::cout << "left click" << std::endl;
-        }
 
+        //draw
         renderer.SetColor(0, 0, 0, 255);
         renderer.Clear();
+
+        if (input.GetMouseButtonPressed(viper::InputSystem::MouseButton::Left)) {
+            vec2 position = input.GetMousePosition();
+            if (points.empty()) {
+                points.push_back(position);
+            }
+            else if ((position - points.back()).Length() > 10) {
+
+                points.push_back(position);
+            }
+        }
+        for (int i = 0; i < (int)points.size() - 1; i++) {
+            renderer.SetColor(viper::random::getRandomInt(0, 255), viper::random::getRandomInt(0, 255), viper::random::getRandomInt(0, 255), 255);
+            renderer.DrawLine(points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);
+        }
+
 
         vec2 speed{ 50.0f, 0 };
 		float lenght = speed.Length();
