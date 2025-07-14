@@ -4,6 +4,7 @@
 #include "Math/Vector2.h"
 #include "Core/Time.h"
 #include "Input/InputSystem.h"
+#include "Audio/AudioSystem.h"
 
 #include <SDL3/SDL.h>
 #include <iostream>
@@ -15,6 +16,15 @@ int main(int argc, char* argv[]) {
     viper::Time time;
 	viper::InputSystem input;
 	input.Initialize();
+
+	viper::AudioSystem audio;
+	audio.Initialize();
+
+	audio.AddSound("bass.wav", "bass");
+	audio.AddSound("snare.wav", "snare");
+	audio.AddSound("clap.wav", "clap");
+	audio.AddSound("close-hat.wav", "close-hat");
+	audio.AddSound("open-hat.wav", "open-hat");
 
     Renderer renderer;
 
@@ -39,11 +49,10 @@ int main(int argc, char* argv[]) {
             }
         }
 
+		audio.Update();
 		input.Update();
-        if (input.GetKeyPressed(SDL_SCANCODE_A)) {
-			std::cout << "A key pressed!" << std::endl;
-		}
-        
+
+        if (input.GetKeyPressed(SDL_SCANCODE_A)) audio.PlaySound("bass");
 
         //draw
         renderer.SetColor(0, 0, 0, 255);
@@ -94,6 +103,8 @@ int main(int argc, char* argv[]) {
 
         renderer.Present();
     }
+	audio.Shutdown();
+    input.Shutdown();
 	renderer.Shutdown();
 
     return 0;
