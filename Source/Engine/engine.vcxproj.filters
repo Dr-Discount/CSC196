@@ -56,6 +56,9 @@
     <ClInclude Include="Audio\AudioSystem.h">
       <Filter>Source\Audio</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer\Model.h">
+      <Filter>Source\Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="engine.cpp">
@@ -75,6 +78,9 @@
     </ClCompile>
     <ClCompile Include="Core\StringHelper.cpp">
       <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Model.cpp">
+      <Filter>Source\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

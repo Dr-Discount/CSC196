@@ -4,7 +4,10 @@
 
 template<typename T>
 struct Vector2 {
-	T x, y;
+	union {
+		struct { T x, y; };
+		struct { T u, v; };
+	};
 
 	Vector2() = default;
 	Vector2(T x, T y) : x{ x }, y{ y } {}
@@ -34,6 +37,18 @@ struct Vector2 {
 
 	float LenghtSqr() { return x * x + y * y; }
 	float Length() { return viper::math::sqrtf(LenghtSqr()); }
+
+	Vector2 Normalized() const { return *this / Length(); }
+
+	float Angle() const { return viper::math::atan2f(y, x); };
+
+	Vector2 Rotate(float radians) const {
+		Vector2 v;
+		v.x = x * viper::math::cosf(radians) - y * viper::math::sinf(radians);
+		v.y = x * viper::math::sinf(radians) + y * viper::math::cosf(radians);
+
+		return v;
+	}
 };
 
 using ivec2 = Vector2<int>;

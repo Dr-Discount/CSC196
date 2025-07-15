@@ -2,8 +2,8 @@
 #include <algorithm>
 #include <cmath>
 
-namespace viper {
-	namespace math {
+namespace viper::math {
+	
 	constexpr float pi = 3.1215926535897932384626433832795f;
 	constexpr float twoPi = 2 * pi;
 	constexpr float halfPi = pi / 2.0f;
@@ -22,5 +22,6 @@ namespace viper {
 	using std::cosf;
 	using std::tan;
 	using std::tanf;
-	}
+	using std::atan2;
+	using std::atan2f;
 }
