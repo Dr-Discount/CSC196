@@ -54,6 +54,9 @@ int main(int argc, char* argv[]) {
 		input.Update();
 
         if (input.GetKeyPressed(SDL_SCANCODE_A)) audio.PlaySound("test");
+		if (input.GetKeyPressed(SDL_SCANCODE_Q)) audio.PlaySound("bass");
+		if (input.GetKeyPressed(SDL_SCANCODE_W)) audio.PlaySound("snare");
+		if (input.GetKeyPressed(SDL_SCANCODE_E)) audio.PlaySound("open-hat");
 
         //draw
         renderer.SetColor(0, 0, 0, 255);
