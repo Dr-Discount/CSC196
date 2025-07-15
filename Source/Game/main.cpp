@@ -19,7 +19,8 @@ int main(int argc, char* argv[]) {
 
 	viper::AudioSystem audio;
 	audio.Initialize();
-
+    
+	audio.AddSound("test.wav", "test");
 	audio.AddSound("bass.wav", "bass");
 	audio.AddSound("snare.wav", "snare");
 	audio.AddSound("clap.wav", "clap");
@@ -52,7 +53,7 @@ int main(int argc, char* argv[]) {
 		audio.Update();
 		input.Update();
 
-        if (input.GetKeyPressed(SDL_SCANCODE_A)) audio.PlaySound("bass");
+        if (input.GetKeyPressed(SDL_SCANCODE_A)) audio.PlaySound("test");
 
         //draw
         renderer.SetColor(0, 0, 0, 255);
