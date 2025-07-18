@@ -55,7 +55,19 @@ int main(int argc, char* argv[]) {
 		{-5, -5}
 	};
 
+    std::vector<vec2> arrowPoints = {
+        {5, 0},
+        {1, 4},
+        {1, 2},
+        {-4, 2},
+        {-4, -2},
+        {1, -2},
+        {1, -4},
+		{5, 0}
+	};
+
     viper::Model model{ points, { 0, 0, 255.0f} };
+	viper::Model arrow{ arrowPoints, { 255.0f, 0, 0 } };
 
     SDL_Event e;
     bool quit = false;
@@ -109,6 +121,7 @@ int main(int argc, char* argv[]) {
         }
 
         model.Draw(renderer, input.GetMousePosition(), viper::math::halfPi * 0.5f,10.0f);
+		arrow.Draw(renderer, {640, 512}, 0.0f, 20.0f);
 
         vec2 speed{ 50.0f, 0 };
 		float lenght = speed.Length();
