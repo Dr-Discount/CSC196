@@ -38,7 +38,7 @@ struct Vector2 {
 	float LenghtSqr() { return x * x + y * y; }
 	float Length() { return viper::math::sqrtf(LenghtSqr()); }
 
-	Vector2 Normalized() const { return *this / Length(); }
+	Vector2 Normalized() { return *this / Length(); }
 
 	float Angle() const { return viper::math::atan2f(y, x); };
 
