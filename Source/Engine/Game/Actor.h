@@ -2,9 +2,16 @@
 #include "../Math/Transform.h"
 #include "../Renderer/Model.h"
 #include <memory>
+#include <string>
 
 namespace viper {
 	class Actor {
+	public:
+		std::string name;
+		std::string tag;
+
+		vec2 velocity{ 0, 0 };
+
 	public:
 		Actor() = default;
 		Actor(Transform transform, class std::shared_ptr<Model> model) : m_transform(transform), m_model{ model } {}

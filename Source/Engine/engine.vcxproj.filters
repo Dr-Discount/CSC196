@@ -88,9 +88,6 @@
     <ClCompile Include="Audio\AudioSystem.cpp">
       <Filter>Source\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="Core\StringHelper.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="Renderer\Model.cpp">
       <Filter>Source\Renderer</Filter>
     </ClCompile>

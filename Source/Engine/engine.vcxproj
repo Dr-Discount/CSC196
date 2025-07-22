@@ -70,6 +70,10 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)Binaries\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)Intermediate\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -166,7 +170,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Audio\AudioSystem.cpp" />
-    <ClCompile Include="Core\StringHelper.cpp" />
     <ClCompile Include="Core\Time.cpp" />
     <ClCompile Include="engine.cpp" />
     <ClCompile Include="Game\Actor.cpp" />
