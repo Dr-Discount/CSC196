@@ -8,10 +8,11 @@
 #include "Core/Time.h"
 #include "Input/InputSystem.h"
 #include "Audio/AudioSystem.h"
-#include "Game/Actor.h"
-#include "Game/Scene.h"
-
+#include "engine.h"
+#include "Framework/Actor.h"
+#include "Framework/Scene.h"
 #include "Game/Player.h"
+#include "SpaceGame.h"
 
 #include <SDL3/SDL.h>
 #include <iostream>
@@ -20,56 +21,11 @@
 
 int main(int argc, char* argv[]) {
     //intialize engine systems
-    viper::Time time;
+    viper::GetEngine().Initialize();
 
-	std::unique_ptr<viper::InputSystem> input = std::make_unique<viper::InputSystem>();
-	input->Initialize();
-
-	std::unique_ptr<viper::AudioSystem> audio = std::make_unique<viper::AudioSystem>();;
-	audio->Initialize();
-    
-	audio->AddSound("test.wav", "test");
-	audio->AddSound("bass.wav", "bass");
-	audio->AddSound("snare.wav", "snare");
-	audio->AddSound("clap.wav", "clap");
-	audio->AddSound("close-hat.wav", "close-hat");
-	audio->AddSound("open-hat.wav", "open-hat");
-
-    std::unique_ptr<viper::Renderer> renderer = std::make_unique<viper::Renderer>();;
-	renderer->Initialize();
-	renderer->CreateWindow("Viper Engine", 1280, 1024);
-
-    std::vector<vec2> points = {
-        {-5, -5},
-        {5, -5},
-        {5, 5},
-        {-5, 5},
-		{-5, -5}
-	};
-
-    std::vector<vec2> arrowPoints = {
-        {5, 0},
-        {1, 4},
-        {1, 2},
-        {-4, 2},
-        {-4, -2},
-        {1, -2},
-        {1, -4},
-		{5, 0}
-	};
-
-    viper::Model model{ points, { 0, 0, 255.0f} };
-    
-
-    std::shared_ptr<viper::Model> arrow = std::make_shared < viper::Model>(arrowPoints, vec3{ 0, 0, 255 });
-
-	viper::Scene scene;
-
-    for (int i = 0; i < 10; ++i) {
-		viper::Transform transform{ vec2{ viper::random::getRandomFloat() * 1200 , viper::random::getRandomFloat() * 1024 }, 0, 10 };
-		std::unique_ptr<Player> player = std::make_unique<Player>(transform, arrow);
-	    scene.AddActor(std::move(player));
-    }
+	//initialize game
+	std::unique_ptr<SpaceGame> game = std::make_unique<SpaceGame>();
+	game->Initialize();
 
 	//viper::Actor actor{ transform, arrow };
 
@@ -83,105 +39,47 @@ int main(int argc, char* argv[]) {
 
     //std::vector<vec2> points;
 
+    //audio
+    viper::GetEngine().GetAudioSystem().AddSound("test.wav", "test");
+    viper::GetEngine().GetAudioSystem().AddSound("bass.wav", "bass");
+    viper::GetEngine().GetAudioSystem().AddSound("snare.wav", "snare");
+    viper::GetEngine().GetAudioSystem().AddSound("clap.wav", "clap");
+    viper::GetEngine().GetAudioSystem().AddSound("close-hat.wav", "close-hat");
+    viper::GetEngine().GetAudioSystem().AddSound("open-hat.wav", "open-hat");
+
+
     while (!quit) {
-		time.Tick();
+        viper::GetEngine().Update();
+		game.Update(viper::GetEngine().GetTime().GetDeltaTime());
+
         while (SDL_PollEvent(&e)) {
             if (e.type == SDL_EVENT_QUIT) {
                 quit = true;
             }
         }
 
-        if (input->GetKeyPressed(SDL_SCANCODE_ESCAPE)) {
+        if (viper::GetEngine().GetInputSystem().GetKeyPressed(SDL_SCANCODE_ESCAPE)) {
             quit = true;
 		}
 
-		audio->Update();
-		input->Update();
 
-        float speed = 150.0f;
-	    vec2 direction{ 0, 0 };
-
-		//if (input.GetKeyDown(SDL_SCANCODE_A)) { transform.rotation += viper::math::degToRad(90) * time.GetDeltaTime(); }
-		//if (input.GetKeyDown(SDL_SCANCODE_D)) { transform.rotation -= viper::math::degToRad(90) * time.GetDeltaTime(); }
-		
-		if (input->GetKeyDown(SDL_SCANCODE_W)) direction.y -= 1;
-		if (input->GetKeyDown(SDL_SCANCODE_S)) direction.y += 1;
-		if (input->GetKeyDown(SDL_SCANCODE_A)) direction.x -= 1;
-		if (input->GetKeyDown(SDL_SCANCODE_D)) direction.x += 1;
-
-        if (direction.LenghtSqr() > 0) {
-			direction = direction.Normalized();
-			//actor.GetTransform().position += direction * speed * time.GetDeltaTime();
-        }
-
-        /*if (input.GetKeyPressed(SDL_SCANCODE_A)) audio.PlaySound("test");
-		if (input.GetKeyPressed(SDL_SCANCODE_Q)) audio.PlaySound("bass");
-		if (input.GetKeyPressed(SDL_SCANCODE_W)) audio.PlaySound("snare");
-		if (input.GetKeyPressed(SDL_SCANCODE_E)) audio.PlaySound("open-hat");*/
-
-        //draw
-        vec3 color{ 1, 0, 0 };
-
-        renderer->SetColor((float)color.r, color.g, color.b);
-        renderer->Clear();
-
-        if (input->GetMouseButtonPressed(viper::InputSystem::MouseButton::Left)) {
-            vec2 position = input->GetMousePosition();
-            if (points.empty()) {
-                points.push_back(position);
-            }
-            else if ((position - points.back()).Length() > 10) {
-
-                points.push_back(position);
-            }
-        }
-        for (int i = 0; i < (int)points.size() - 1; i++) {
-            renderer->SetColor((uint8_t)viper::random::getRandomInt(0, 255), viper::random::getRandomInt(0, 255), viper::random::getRandomInt(0, 255), 255);
-            renderer->DrawLine(points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);
-        }
-
-        //model.Draw(renderer, input->GetMousePosition(), viper::math::halfPi * 0.5f,10.0f);
-		//arrow.Draw(renderer, transform);
-		//actor.Draw(renderer);
-       /* for (auto& actor : actors) {
-            actor->GetTransform().position += direction * speed * time.GetDeltaTime();
-			actor->Draw(*renderer);
-        }*/
-		scene.Draw(*renderer);
+		game.Draw(viper::GetEngine().GetRenderer());
 
         vec2 starSpeed{ 50.0f, 0 };
 		float lenght = starSpeed.Length();
 
         for (auto& star : stars) {
-			star = star += starSpeed * time.GetDeltaTime();
+			star = star += starSpeed * viper::GetEngine().GetTime().GetDeltaTime();
 
 			if (star.x > 1280) star.x = 0;
 			if (star.x < 0) star.x = 1280;
 
-            renderer->SetColor((uint8_t)viper::random::getRandomInt(0, 255), viper::random::getRandomInt(0, 255), viper::random::getRandomInt(0, 255), 255);
-			renderer->DrawPoint(star.x, star.y);
+            viper::GetEngine().GetRenderer().SetColor((uint8_t)viper::random::getRandomInt(0, 255), viper::random::getRandomInt(0, 255), viper::random::getRandomInt(0, 255), 255);
+            viper::GetEngine().GetRenderer().DrawPoint(star.x, star.y);
         }
-
-       /* for (int i = 0; i < 100; ++i) {
-            renderer.SetColor(viper::random::getRandomInt(0, 255), viper::random::getRandomInt(0, 255), viper::random::getRandomInt(0, 255), 255);
-            renderer.DrawLine(
-                viper::random::getRandomInt(0, 1280),
-                viper::random::getRandomInt(0, 1024),
-                viper::random::getRandomInt(0, 1280),
-                viper::random::getRandomInt(0, 1024)
-            );
-            renderer.DrawPoint(
-                viper::random::getRandomInt(0, 1280),
-                viper::random::getRandomInt(0, 1024)
-            );
-        }*/
-
-        renderer->Present();
+        viper::GetEngine().GetRenderer().Present();
     }
-
-	audio->Shutdown();
-    input->Shutdown();
-	renderer->Shutdown();
+    viper::GetEngine().Shutdown();
 
     return 0;
 }

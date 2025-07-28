@@ -173,6 +173,7 @@
     <ClCompile Include="Core\Time.cpp" />
     <ClCompile Include="engine.cpp" />
     <ClCompile Include="Game\Actor.cpp" />
+    <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="Game\Scene.cpp" />
     <ClCompile Include="Input\InputSystem.cpp" />
     <ClCompile Include="Renderer\Model.cpp" />
@@ -184,7 +185,9 @@
     <ClInclude Include="Core\Random.h" />
     <ClInclude Include="Core\StringHelper.h" />
     <ClInclude Include="Core\Time.h" />
+    <ClInclude Include="engine.h" />
     <ClInclude Include="Game\Actor.h" />
+    <ClInclude Include="Game\Game.h" />
     <ClInclude Include="Game\Scene.h" />
     <ClInclude Include="Input\InputSystem.h" />
     <ClInclude Include="Math\Math.h" />
