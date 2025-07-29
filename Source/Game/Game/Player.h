@@ -4,7 +4,7 @@
 
 class Player : public viper::Actor {
 public:
-	float speed = 300.0f;
+	float speed = 500.0f;
 	float rotationRate = 180.0f;
 
 public:

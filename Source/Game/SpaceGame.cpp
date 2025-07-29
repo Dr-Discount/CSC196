@@ -8,7 +8,7 @@
 
 
 bool SpaceGame::Initialize() {
-    std::vector<vec2> arrowPoints = {
+    std::vector<vec2> playerPoints = {
     {4, 0},
     {-3, 3},
     {-2, 0},
@@ -16,21 +16,37 @@ bool SpaceGame::Initialize() {
     {4, 0}
     };
 
+    std::vector<vec2> enemyPoints = {
+        {-1, -2},
+        {1, -2 },
+        {2, -1 },
+        {5, 0},
+		{2, 1 },
+		{1, 2 },
+		{-1, 2 },
+		{-2, 1 },
+		{-5, 0},
+		{-2, -1},
+		{-1, -2}
+	};
+
 	m_scene = std::make_unique<viper::Scene>();
 
-    std::shared_ptr<viper::Model> playerM = std::make_shared < viper::Model>(arrowPoints, vec3{ 0, 0, 255});
+    std::shared_ptr<viper::Model> playerM = std::make_shared < viper::Model>(playerPoints, vec3{ 0, 0, 255});
 
     viper::Transform transform{ vec2{600 , 512}, 0, 5 };
     std::unique_ptr<Player> player = std::make_unique<Player>(transform, playerM);
-    player->damping = 0.3f;
+    player->damping = 0.5f;
 	player->name = "Player";
 
     m_scene->AddActor(std::move(player));
 	
-    std::shared_ptr<viper::Model> enemyModel = std::make_shared < viper::Model>(arrowPoints, vec3{ 255, 255, 255 });
+    std::shared_ptr<viper::Model> enemyModel = std::make_shared < viper::Model>(enemyPoints, vec3{ 255, 255, 255 });
     for (int i = 0; i < 10; i++) {
-        viper::Transform transform{ vec2{ viper::random::getRandomFloat() * 1280, viper::random::getRandomFloat() * 1024 }, 0, 10 };
+        viper::Transform transform{ vec2{ viper::random::getRandomFloat() * 1280, viper::random::getRandomFloat() * 1024 }, 0, 7 };
         std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(transform, enemyModel);
+		enemy->damping = 1.0f;
+		enemy->speed = (viper::random::getRandomFloat() * 500) + 300;
         m_scene->AddActor(std::move(enemy));
     }
 
