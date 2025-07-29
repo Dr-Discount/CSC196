@@ -16,6 +16,17 @@ namespace viper {
 	}
 
 	void Scene::AddActor(std::unique_ptr<Actor> actor) {
+		actor->scene = this;
 		m_actors.push_back(std::move(actor));
+	}
+
+	Actor* Scene::GetActorByName(const std::string& name)
+	{
+		for (auto& actor : m_actors) {
+			if (actor->name == name) {
+				return actor.get();
+			}
+		}
+		return nullptr;
 	}
 }

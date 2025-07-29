@@ -65,16 +65,16 @@
     <ClInclude Include="Math\Transform.h">
       <Filter>Source\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Actor.h">
-      <Filter>Source\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Scene.h">
-      <Filter>Source\Framework</Filter>
-    </ClInclude>
     <ClInclude Include="engine.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Game.h">
+    <ClInclude Include="Framework\Actor.h">
+      <Filter>Source\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Game.h">
+      <Filter>Source\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Scene.h">
       <Filter>Source\Framework</Filter>
     </ClInclude>
   </ItemGroup>
@@ -97,13 +97,13 @@
     <ClCompile Include="Renderer\Model.cpp">
       <Filter>Source\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Actor.cpp">
+    <ClCompile Include="Framework\Actor.cpp">
       <Filter>Source\Framework</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Scene.cpp">
+    <ClCompile Include="Framework\Game.cpp">
       <Filter>Source\Framework</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Game.cpp">
+    <ClCompile Include="Framework\Scene.cpp">
       <Filter>Source\Framework</Filter>
     </ClCompile>
   </ItemGroup>

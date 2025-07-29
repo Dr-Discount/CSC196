@@ -12,10 +12,10 @@ namespace viper {
 		void Shutdown();
 		void Draw();
 
-		Renderer& GetRenderer() { return *m_renderer; }
-		AudioSystem& GetAudioSystem() { return *m_audio; }
-		InputSystem& GetInputSystem() { return *m_input; }
-		Time& GetTime() { return m_time; }
+		class Renderer& GetRenderer() { return *m_renderer; }
+		class AudioSystem& GetAudioSystem() { return *m_audio; }
+		class InputSystem& GetInputSystem() { return *m_input; }
+		class Time& GetTime() { return m_time; }
 
 	private:
 		Time m_time;

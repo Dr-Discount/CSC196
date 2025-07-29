@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <memory>
+#include <string>
 
 namespace viper {
 	class Scene {
@@ -11,6 +12,8 @@ namespace viper {
 		void Draw(class Renderer& renderer);
 
 		void AddActor(std::unique_ptr<class Actor> actor);
+
+		class Actor* GetActorByName(const std::string& name);
 
 	private:
 		std::vector<std::unique_ptr<class Actor>> m_actors;

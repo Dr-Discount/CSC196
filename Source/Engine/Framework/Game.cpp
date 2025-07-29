@@ -2,7 +2,7 @@
 
 namespace viper {
 	bool Game::Initialize() {
-		
+		return true;
 	}
 	void Game::Update() {
 

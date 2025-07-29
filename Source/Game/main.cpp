@@ -50,7 +50,7 @@ int main(int argc, char* argv[]) {
 
     while (!quit) {
         viper::GetEngine().Update();
-		game.Update(viper::GetEngine().GetTime().GetDeltaTime());
+		game->Update();
 
         while (SDL_PollEvent(&e)) {
             if (e.type == SDL_EVENT_QUIT) {
@@ -62,8 +62,12 @@ int main(int argc, char* argv[]) {
             quit = true;
 		}
 
+        vec3 color{ 1, 0, 0 };
 
-		game.Draw(viper::GetEngine().GetRenderer());
+        viper::GetEngine().GetRenderer().SetColor((float)color.r, color.g, color.b);
+        viper::GetEngine().GetRenderer().Clear();
+
+		game->Draw();
 
         vec2 starSpeed{ 50.0f, 0 };
 		float lenght = starSpeed.Length();
