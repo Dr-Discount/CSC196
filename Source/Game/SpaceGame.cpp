@@ -9,8 +9,17 @@
 #include "Game/GameData.h"
 
 bool SpaceGame::Initialize() {
-	m_scene = std::make_unique<viper::Scene>();
+	m_scene = std::make_unique<viper::Scene>(this);
 
+    m_titleFont = std::make_shared<viper::font>();
+    m_titleFont->Load();
+
+	m_uiFont = std::make_shared<viper::font>();
+	m_uiFont->Load();
+
+	m_titleText = std::make_unique<viper::Text>(m_titleFont, "Space Game", vec2{ 640, 512 }, vec3{ 255, 255, 255 });
+	m_scoreText = std::make_unique<viper::Text>(m_uiFont, "Score: 0", vec2{ 10, 10 }, vec3{ 255, 255, 255 });
+	m_livesText = std::make_unique<viper::Text>(m_uiFont, "Lives: 3", vec2{ 10, 30 }, vec3{ 255, 255, 255 });
 	return true;
 }
 
@@ -31,9 +40,8 @@ void SpaceGame::Update(float dt) {
         break;
     case SpaceGame::GameState::StartRound: {
         std::shared_ptr<viper::Model> playerM = std::make_shared < viper::Model>(GameData::playerPoints, vec3{ 0, 0, 255 });
-
         viper::Transform transform{ vec2{600 , 512}, 0, 5 };
-        std::unique_ptr<Player> player = std::make_unique<Player>(transform, playerM);
+        auto player = std::make_unique<Player>(transform, playerM);
         player->damping = 0.5f;
         player->name = "Player";
         player->tag = "Player";
@@ -55,7 +63,6 @@ void SpaceGame::Update(float dt) {
             enemy->tag = "enemy";
             m_scene->AddActor(std::move(enemy));
         }
-	    m_scene->Update(viper::GetEngine().GetTime().GetDeltaTime());
         break;
     case SpaceGame::GameState::PlayerDead:
         m_lives--;
@@ -68,6 +75,7 @@ void SpaceGame::Update(float dt) {
         break;
     }
 
+	m_scene->Update(viper::GetEngine().GetTime().GetDeltaTime());
 }
 
 void SpaceGame::Draw() {

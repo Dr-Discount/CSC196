@@ -2,6 +2,7 @@
 #include "Engine.h"
 #include "Framework/Scene.h"
 #include "Renderer/Renderer.h"
+#include "Framework/Game.h"
 #include "Player.h"
 
 void Enemy::Update(float dt) {
@@ -20,4 +21,11 @@ void Enemy::Update(float dt) {
 	transform.position.y = viper::math::wrap(transform.position.y, 0.0f, (float)viper::GetEngine().GetRenderer().GetHeight());
 
 	Actor::Update(dt);
+}
+
+void Enemy::OnCollision(Actor* other) {
+	if (tag != other->tag) {
+		destroyed = true;
+		scene->GetGame()->AddPoints(10);
+	}
 }

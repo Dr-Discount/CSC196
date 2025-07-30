@@ -13,7 +13,10 @@ namespace viper {
 		void Draw(class Renderer& renderer, const vec2& position, float rotation, float scale);
 		void Draw(class Renderer& renderer, const Transform& transform);
 
+		float GetRadius() const { return m_radius; }
+		void CalculateRadius();
 	private:
+		float m_radius{ 0 };
 		std::vector<vec2> m_points;
 		vec3 m_color{ 1, 1, 1 };
 	};

@@ -2,6 +2,9 @@
 #include "Engine.h"
 #include "Framework/Scene.h"
 #include "Renderer/Renderer.h"
+#include "Input/InputSystem.h"
+#include "Math/Vector3.h"
+#include "GameData.h"
 #include "Player.h"
 
 void Rocket::Update(float dt) {
@@ -12,4 +15,10 @@ void Rocket::Update(float dt) {
 	transform.position.y = viper::math::wrap(transform.position.y, 0.0f, (float)viper::GetEngine().GetRenderer().GetHeight());
 
 	Actor::Update(dt);
+}
+
+void Rocket::OnCollision(Actor* other) {
+	if (tag != other->tag) {
+		destroyed = true;
+	}
 }

@@ -1,5 +1,7 @@
 #pragma once
 #include "Framework/Game.h"
+#include "Renderer/Font.h"
+#include "Renderer/Text.h"
 
 class SpaceGame : viper::Game {
 public:
@@ -23,4 +25,11 @@ public:
 private:
 	GameState m_gameState = GameState::Initializee;
 	float m_enemySpawnTimer = 0.0f;
+
+	std::shared_ptr<viper::Font> m_titleFont;
+	std::shared_ptr<viper::Font> m_uiFont;
+
+	std::unique_ptr<viper::Text> m_titleText;
+	std::unique_ptr<viper::Text> m_scoreText;
+	std::unique_ptr<viper::Text> m_livesText;
 };

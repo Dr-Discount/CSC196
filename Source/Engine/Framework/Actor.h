@@ -10,6 +10,9 @@ namespace viper {
 		std::string name;
 		std::string tag;
 
+		bool destroyed{ false };
+		float lifespan{ 0.0f };
+
 		vec2 velocity{ 0, 0 };
 		float damping{ 0.0f };
 
@@ -21,6 +24,10 @@ namespace viper {
 
 		virtual void Update(float dt);
 		virtual void Draw(class Renderer& renderer);
+
+		virtual void OnCollision(Actor* other) = 0;
+
+		float GetRadius();
 
 		Transform& GetTransform() { return transform; }
 	protected:

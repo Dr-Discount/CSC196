@@ -1,8 +1,12 @@
 #include "Player.h"
 #include "engine.h"
+#include "Rocket.h"
 #include "Math/Math.h"
+#include "Framework/Scene.h"
 #include "Renderer/Renderer.h"
 #include "Input/InputSystem.h"
+#include "Math/Vector3.h"
+#include "GameData.h"
 #include <SDL3/SDL_scancode.h>
 
 void Player::Update(float dt) {
@@ -23,7 +27,25 @@ void Player::Update(float dt) {
 	transform.position.x = viper::math::wrap(transform.position.x, 0.0f, (float)viper::GetEngine().GetRenderer().GetWidth());
 	transform.position.y = viper::math::wrap(transform.position.y, 0.0f, (float)viper::GetEngine().GetRenderer().GetHeight());
 
+	fireTimer -= dt;
+	if (viper::GetEngine().GetInputSystem().GetKeyDown(SDL_SCANCODE_SPACE) && fireTimer <= 0) {
+		fireTimer = fireTime;
 
+		std::shared_ptr<viper::Model> rocketM = std::make_shared < viper::Model>(GameData::playerPoints, vec3{ 255, 0, 0 });
+		viper::Transform transform{ this->transform.position, this->transform.rotation, 2 };
+		auto rocket = std::make_unique<Rocket>(transform, rocketM);
+		rocket->damping = 0.5f;
+		rocket->lifespan = 1.5f;
+		rocket->name = "rocket";
+		rocket->tag = "rocket";
 
+		scene->AddActor(std::move(rocket));
+	}
 	Actor::Update(dt);
+}
+
+void Player::OnCollision(Actor* other) {
+	if (tag != other->tag) {
+		destroyed = true;
+	}
 }

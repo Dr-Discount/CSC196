@@ -6,6 +6,8 @@ class Player : public viper::Actor {
 public:
 	float speed = 500.0f;
 	float rotationRate = 180.0f;
+	float fireTimer = 0.0f;
+	float fireTime = 0.5f;
 
 public:
 	Player() = default;
@@ -13,6 +15,7 @@ public:
 		: Actor{ transform, model } {}
 
 	void Update(float dt) override;
+	void OnCollision(Actor* other) override;
 
 private:
 

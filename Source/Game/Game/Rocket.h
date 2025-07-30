@@ -4,7 +4,7 @@
 
 class Rocket : public viper::Actor {
 public:
-	float speed = 250.0f;
+	float speed = 350.0f;
 
 	Rocket() = default;
 	Rocket(viper::Transform transform, std::shared_ptr<viper::Model> model)
@@ -12,6 +12,7 @@ public:
 	}
 
 	void Update(float dt) override;
+	void OnCollision(Actor* other) override;
 
 private:
 
