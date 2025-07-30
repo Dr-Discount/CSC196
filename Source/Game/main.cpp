@@ -50,7 +50,7 @@ int main(int argc, char* argv[]) {
 
     while (!quit) {
         viper::GetEngine().Update();
-		game->Update();
+		game->Update(viper::GetEngine().GetTime().GetDeltaTime());
 
         while (SDL_PollEvent(&e)) {
             if (e.type == SDL_EVENT_QUIT) {

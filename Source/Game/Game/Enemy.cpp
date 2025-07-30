@@ -2,9 +2,10 @@
 #include "Engine.h"
 #include "Framework/Scene.h"
 #include "Renderer/Renderer.h"
+#include "Player.h"
 
 void Enemy::Update(float dt) {
-	Actor* player = scene->GetActorByName("Player");
+	Player* player = scene->GetActorByName<Player>("Player");
 	if (player) {
 		vec2 direction{ 0, 0 };
 		direction = player->transform.position - transform.position;

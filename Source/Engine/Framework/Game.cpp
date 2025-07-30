@@ -4,7 +4,7 @@ namespace viper {
 	bool Game::Initialize() {
 		return true;
 	}
-	void Game::Update() {
+	void Game::Update(float dt) {
 
 	}
 	void Game::Draw() {
