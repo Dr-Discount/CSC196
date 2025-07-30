@@ -11,16 +11,17 @@
 bool SpaceGame::Initialize() {
 	m_scene = std::make_unique<viper::Scene>(this);
 
-    m_titleFont = std::make_shared<viper::font>();
-    m_titleFont->Load();
+    m_titleFont = std::make_shared<viper::Font>();
+    m_titleFont->Load("Righteous.ttf", 48);
 
-	m_uiFont = std::make_shared<viper::font>();
-	m_uiFont->Load();
+	m_uiFont = std::make_shared<viper::Font>();
+	m_uiFont->Load("Righteous.ttf", 48);
 
-	m_titleText = std::make_unique<viper::Text>(m_titleFont, "Space Game", vec2{ 640, 512 }, vec3{ 255, 255, 255 });
-	m_scoreText = std::make_unique<viper::Text>(m_uiFont, "Score: 0", vec2{ 10, 10 }, vec3{ 255, 255, 255 });
-	m_livesText = std::make_unique<viper::Text>(m_uiFont, "Lives: 3", vec2{ 10, 30 }, vec3{ 255, 255, 255 });
-	return true;
+	m_titleText = std::make_unique<viper::Text>(m_titleFont);
+	m_scoreText = std::make_unique<viper::Text>(m_uiFont);
+	m_livesText = std::make_unique<viper::Text>(m_uiFont);
+	
+    return true;
 }
 
 void SpaceGame::Update(float dt) {
@@ -65,11 +66,21 @@ void SpaceGame::Update(float dt) {
         }
         break;
     case SpaceGame::GameState::PlayerDead:
-        m_lives--;
-        if (m_lives == 0) m_gameState = GameState::GameOver;
-        else m_gameState = GameState::StartRound;
+		m_stateTimer -= dt;
+        if (m_stateTimer <= 0.0f) {
+            m_lives--;
+            if (m_lives == 0) {
+                m_gameState = GameState::GameOver;
+				m_stateTimer = 3.0f;
+            } else m_gameState = GameState::StartRound;
+        }
         break;
     case SpaceGame::GameState::GameOver:
+		m_stateTimer -= dt;
+		if (m_stateTimer <= 0.0f) {
+			m_gameState = GameState::Title;
+			m_scene->RemoveAllActors();
+		}
         break;
     default:
         break;
@@ -78,10 +89,30 @@ void SpaceGame::Update(float dt) {
 	m_scene->Update(viper::GetEngine().GetTime().GetDeltaTime());
 }
 
-void SpaceGame::Draw() {
-    m_scene->Draw(viper::GetEngine().GetRenderer());
+void SpaceGame::Draw(viper::Renderer& renderer) {
+    if (m_gameState == GameState::Title) {
+        m_titleText->Create(renderer, "Space Game", vec3{ 255, 255, 0 });
+        m_titleText->Draw(renderer, 400, 400);
+    }
+    if (m_gameState == GameState::GameOver) {
+		m_titleText->Create(renderer, "Game Over", vec3{ 255, 0, 0 });
+		m_titleText->Draw(renderer, 400, 400);
+    }
+
+	m_scoreText->Create(renderer, "Score: " + std::to_string(m_score), vec3{ 255, 255, 255 });
+	m_scoreText->Draw(renderer, 20, 20);
+
+	m_livesText->Create(renderer, "Lives: " + std::to_string(m_lives), vec3{ 255, 255, 255 });
+	m_livesText->Draw(renderer, renderer.GetWidth() - 200, 20);
+    
+    m_scene->Draw(renderer);
 }
 
 void SpaceGame::Shutdown() {
 	m_scene.reset();
+}
+
+void SpaceGame::OnPlayerDeath() {
+	m_gameState = GameState::PlayerDead;
+	m_stateTimer = 2.0f;
 }

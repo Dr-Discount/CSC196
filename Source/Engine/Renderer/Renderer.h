@@ -1,10 +1,13 @@
 #pragma once
 #include <iostream>
 #include <SDL3/SDL.h>
+#include <SDL3_ttf/SDL_ttf.h>
+
 
 namespace viper {
 	class Renderer {
 	public:
+		friend class Text;
 		Renderer() = default;
 
 		bool Initialize();

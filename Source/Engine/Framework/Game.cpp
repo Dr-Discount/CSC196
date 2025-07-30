@@ -7,7 +7,7 @@ namespace viper {
 	void Game::Update(float dt) {
 
 	}
-	void Game::Draw() {
+	void Game::Draw(class Renderer& renderer) {
 
 	}
 	void Game::Shutdown() {

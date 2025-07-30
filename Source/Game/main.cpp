@@ -67,7 +67,7 @@ int main(int argc, char* argv[]) {
         viper::GetEngine().GetRenderer().SetColor((float)color.r, color.g, color.b);
         viper::GetEngine().GetRenderer().Clear();
 
-		game->Draw();
+		game->Draw(viper::GetEngine().GetRenderer());
 
         vec2 starSpeed{ 50.0f, 0 };
 		float lenght = starSpeed.Length();

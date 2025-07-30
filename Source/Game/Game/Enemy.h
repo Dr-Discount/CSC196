@@ -5,6 +5,8 @@
 class Enemy : public viper::Actor {
 public:
 	float speed = 250.0f;
+	float fireTime = 1.0f;
+	float fireTimer = 0.5f;
 
 	Enemy() = default;
 	Enemy(viper::Transform transform, std::shared_ptr<viper::Model> model)

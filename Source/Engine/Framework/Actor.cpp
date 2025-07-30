@@ -19,8 +19,8 @@ namespace viper {
 
 		m_model->Draw(renderer, transform);
 	}
-	float Actor::GetRadius() {
 
-		return (m_model) ? m_model->GetRadius() * transform.scale : 0;
+	float Actor::GetRadius() {
+		return (m_model) ? m_model->GetRadius() * transform.scale * 0.9f : 0;
 	}
 }

@@ -3,11 +3,13 @@
 #include "Rocket.h"
 #include "Math/Math.h"
 #include "Framework/Scene.h"
+#include "Framework/Game.h"
 #include "Renderer/Renderer.h"
 #include "Input/InputSystem.h"
 #include "Math/Vector3.h"
 #include "GameData.h"
 #include <SDL3/SDL_scancode.h>
+#include "../SpaceGame.h"
 
 void Player::Update(float dt) {
 	float rotate = 0;
@@ -35,6 +37,7 @@ void Player::Update(float dt) {
 		viper::Transform transform{ this->transform.position, this->transform.rotation, 2 };
 		auto rocket = std::make_unique<Rocket>(transform, rocketM);
 		rocket->damping = 0.5f;
+		rocket->speed = 500.0f;
 		rocket->lifespan = 1.5f;
 		rocket->name = "rocket";
 		rocket->tag = "rocket";
@@ -47,5 +50,6 @@ void Player::Update(float dt) {
 void Player::OnCollision(Actor* other) {
 	if (tag != other->tag) {
 		destroyed = true;
+		dynamic_cast<SpaceGame*>(scene->GetGame())->OnPlayerDeath();
 	}
 }

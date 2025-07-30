@@ -20,11 +20,14 @@ public:
 
 	bool Initialize() override;
 	void Update(float dt) override;
-	void Draw() override;
+	void Draw(viper::Renderer& renderer) override;
 	void Shutdown() override;
+
+	void OnPlayerDeath();
 private:
 	GameState m_gameState = GameState::Initializee;
 	float m_enemySpawnTimer = 0.0f;
+	float m_stateTimer = 0.0f;
 
 	std::shared_ptr<viper::Font> m_titleFont;
 	std::shared_ptr<viper::Font> m_uiFont;
