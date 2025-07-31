@@ -59,5 +59,6 @@ void Player::OnCollision(Actor* other) {
 	if (tag != other->tag) {
 		destroyed = true;
 		dynamic_cast<SpaceGame*>(scene->GetGame())->OnPlayerDeath();
+		std::cout << "Player destroyed" << std::endl;
 	}
 }

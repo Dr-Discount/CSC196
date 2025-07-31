@@ -3,7 +3,7 @@
 
 namespace viper {
     bool Renderer::Initialize() {
-        if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+        if (!SDL_Init(SDL_INIT_VIDEO)) {
             std::cerr << "SDL_Init Error: " << SDL_GetError() << std::endl;
             return false;
         }
@@ -42,7 +42,7 @@ namespace viper {
         SDL_SetRenderDrawColor(m_renderer, r, g, b, a);
     }
     void Renderer::SetColor(float r, float g, float b, float a) {
-        SDL_SetRenderDrawColor(m_renderer, r, g, b, a);
+        SDL_SetRenderDrawColorFloat(m_renderer, r, g, b, a);
     }
 
     void Renderer::DrawLine(float x1, float y1, float x2, float y2) {

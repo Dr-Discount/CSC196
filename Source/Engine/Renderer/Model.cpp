@@ -18,7 +18,7 @@ namespace viper {
 		Draw(renderer, transform.position, transform.rotation, transform.scale);
 	}
 	void Model::CalculateRadius() {
-		m_radius = 0.0f;
+		m_radius = 0;
 		for (auto& point : m_points) {
 			float length = point.Length();
 			if (length > m_radius) {

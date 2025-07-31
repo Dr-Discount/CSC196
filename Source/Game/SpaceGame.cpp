@@ -91,7 +91,7 @@ void SpaceGame::Update(float dt) {
 }
 
 void SpaceGame::Draw(viper::Renderer& renderer) {
-    /*if (m_gameState == GameState::Title) {
+    if (m_gameState == GameState::Title) {
         m_titleText->Create(renderer, "Space Game", vec3{ 255, 255, 0 });
         m_titleText->Draw(renderer, 400, 400);
     }
@@ -105,7 +105,7 @@ void SpaceGame::Draw(viper::Renderer& renderer) {
 
 	m_livesText->Create(renderer, "Lives: " + std::to_string(m_lives), vec3{ 255, 255, 255 });
 	m_livesText->Draw(renderer, (float)(renderer.GetWidth() - 200), 20.0f);
-    */
+    
     m_scene->Draw(renderer);
 
 	viper::GetEngine().GetPS().Draw(renderer);
