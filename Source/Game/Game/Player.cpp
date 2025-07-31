@@ -5,6 +5,7 @@
 #include "Framework/Scene.h"
 #include "Framework/Game.h"
 #include "Renderer/Renderer.h"
+#include "Renderer/ParticleSystem.h"
 #include "Input/InputSystem.h"
 #include "Math/Vector3.h"
 #include "GameData.h"
@@ -12,6 +13,13 @@
 #include "../SpaceGame.h"
 
 void Player::Update(float dt) {
+	viper::Particle particle;
+	particle.position = transform.position;
+	particle.velocity = vec2{ 2,0 };
+	particle.color = vec3{ 255, 255, 255 };
+	particle.lifespan = 2.0f;
+	viper::GetEngine().GetPS().AddParticle(particle);
+
 	float rotate = 0;
 	if (viper::GetEngine().GetInputSystem().GetKeyDown(SDL_SCANCODE_A)) rotate -= 1;
 	if (viper::GetEngine().GetInputSystem().GetKeyDown(SDL_SCANCODE_D)) rotate += 1;

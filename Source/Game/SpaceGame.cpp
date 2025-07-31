@@ -3,6 +3,7 @@
 #include "Game/Enemy.h"
 #include "Framework/Scene.h"
 #include "Renderer/Renderer.h"
+#include "Renderer/ParticleSystem.h"
 #include "Input/InputSystem.h"
 #include "Core/Random.h"
 #include "Engine.h"
@@ -12,10 +13,10 @@ bool SpaceGame::Initialize() {
 	m_scene = std::make_unique<viper::Scene>(this);
 
     m_titleFont = std::make_shared<viper::Font>();
-    m_titleFont->Load("Righteous.ttf", 48);
+    m_titleFont->Load("plain germanica.ttf", 48);
 
 	m_uiFont = std::make_shared<viper::Font>();
-	m_uiFont->Load("Righteous.ttf", 48);
+	m_uiFont->Load("deb.ttf", 48);
 
 	m_titleText = std::make_unique<viper::Text>(m_titleFont);
 	m_scoreText = std::make_unique<viper::Text>(m_uiFont);
@@ -57,10 +58,10 @@ void SpaceGame::Update(float dt) {
             m_enemySpawnTimer = 4;
 
             std::shared_ptr<viper::Model> enemyModel = std::make_shared < viper::Model>(GameData::enemyPoints, vec3{ 255, 255, 255 });
-            viper::Transform transform{ vec2{ viper::random::getRandomFloat() * 1280, viper::random::getRandomFloat() * 1024 }, 0, 7 };
+            viper::Transform transform{ vec2{ viper::random::getReal() * 1280, viper::random::getReal() * 1024 }, 0, 7 };
             std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(transform, enemyModel);
             enemy->damping = 1.0f;
-            enemy->speed = (viper::random::getRandomFloat() * 500) + 300;
+            enemy->speed = (viper::random::getReal() * 500) + 300;
             enemy->tag = "enemy";
             m_scene->AddActor(std::move(enemy));
         }
@@ -90,7 +91,7 @@ void SpaceGame::Update(float dt) {
 }
 
 void SpaceGame::Draw(viper::Renderer& renderer) {
-    if (m_gameState == GameState::Title) {
+    /*if (m_gameState == GameState::Title) {
         m_titleText->Create(renderer, "Space Game", vec3{ 255, 255, 0 });
         m_titleText->Draw(renderer, 400, 400);
     }
@@ -103,9 +104,11 @@ void SpaceGame::Draw(viper::Renderer& renderer) {
 	m_scoreText->Draw(renderer, 20, 20);
 
 	m_livesText->Create(renderer, "Lives: " + std::to_string(m_lives), vec3{ 255, 255, 255 });
-	m_livesText->Draw(renderer, renderer.GetWidth() - 200, 20);
-    
+	m_livesText->Draw(renderer, (float)(renderer.GetWidth() - 200), 20.0f);
+    */
     m_scene->Draw(renderer);
+
+	viper::GetEngine().GetPS().Draw(renderer);
 }
 
 void SpaceGame::Shutdown() {

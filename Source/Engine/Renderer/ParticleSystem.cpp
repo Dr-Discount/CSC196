@@ -37,7 +37,6 @@ namespace viper {
 		if (freeParticle) {
 			*freeParticle = particle;
 			freeParticle->active = true;
-			free
 		}
 		m_particles.push_back(particle);
 	}

@@ -3,7 +3,7 @@
 #include "Renderer/Font.h"
 #include "Renderer/Text.h"
 
-class SpaceGame : viper::Game {
+class SpaceGame : public viper::Game {
 public:
 	enum GameState {
 		Initializee,
