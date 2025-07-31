@@ -13,10 +13,10 @@ bool SpaceGame::Initialize() {
 	m_scene = std::make_unique<viper::Scene>(this);
 
     m_titleFont = std::make_shared<viper::Font>();
-    m_titleFont->Load("plain germanica.ttf", 48);
+    m_titleFont->Load("Righteous-Regular.ttf", 48);
 
 	m_uiFont = std::make_shared<viper::Font>();
-	m_uiFont->Load("deb.ttf", 48);
+	m_uiFont->Load("Righteous-Regular.ttf", 48);
 
 	m_titleText = std::make_unique<viper::Text>(m_titleFont);
 	m_scoreText = std::make_unique<viper::Text>(m_uiFont);
