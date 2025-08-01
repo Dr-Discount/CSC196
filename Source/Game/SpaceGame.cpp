@@ -57,11 +57,27 @@ void SpaceGame::Update(float dt) {
         if (m_enemySpawnTimer <= 0.0f) {
             m_enemySpawnTimer = 4;
 
-            std::shared_ptr<viper::Model> enemyModel = std::make_shared < viper::Model>(GameData::enemyPoints, vec3{ 255, 255, 255 });
+			int i = viper::random::getInt(1, 4);
+            std::shared_ptr<viper::Model> enemyModel;
+            switch(i) {
+            case 1:
+                enemyModel = std::make_shared < viper::Model>(GameData::enemyPoints, vec3{ 255, 255, 255 });
+                break;
+            case 2:
+                enemyModel = std::make_shared < viper::Model>(GameData::enemyPoints2, vec3{ 255, 255, 255 });
+				break;
+            case 3:
+                enemyModel = std::make_shared < viper::Model>(GameData::enemyPoints3, vec3{ 255, 255, 255 });
+                break;
+            case 4:
+                enemyModel = std::make_shared < viper::Model>(GameData::enemyPoints3, vec3{ 255, 255, 255 });
+    			break;
+            };
+            
             viper::Transform transform{ vec2{ viper::random::getReal() * 1280, viper::random::getReal() * 1024 }, 0, 7 };
             std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(transform, enemyModel);
             enemy->damping = 1.0f;
-            enemy->speed = (viper::random::getReal() * 500) + 300;
+            enemy->speed = 400;
             enemy->tag = "enemy";
             m_scene->AddActor(std::move(enemy));
         }
@@ -70,6 +86,7 @@ void SpaceGame::Update(float dt) {
 		m_stateTimer -= dt;
         if (m_stateTimer <= 0.0f) {
             m_lives--;
+            m_scene->RemoveAllActors();
             if (m_lives == 0) {
                 m_gameState = GameState::GameOver;
 				m_stateTimer = 3.0f;
@@ -92,12 +109,12 @@ void SpaceGame::Update(float dt) {
 
 void SpaceGame::Draw(viper::Renderer& renderer) {
     if (m_gameState == GameState::Title) {
-        m_titleText->Create(renderer, "Space Game", vec3{ 255, 255, 0 });
-        m_titleText->Draw(renderer, 400, 400);
+        m_titleText->Create(renderer, "Asteroids", vec3{ 255, 255, 0 });
+        m_titleText->Draw(renderer, 500, 400);
     }
     if (m_gameState == GameState::GameOver) {
 		m_titleText->Create(renderer, "Game Over", vec3{ 255, 0, 0 });
-		m_titleText->Draw(renderer, 400, 400);
+		m_titleText->Draw(renderer, 500, 400);
     }
 
 	m_scoreText->Create(renderer, "Score: " + std::to_string(m_score), vec3{ 255, 255, 255 });

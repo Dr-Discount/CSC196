@@ -12,11 +12,6 @@ namespace viper {
 			Right
 		};
 
-		enum class Direction {
-			Left,
-			Right
-		};
-
 		int i = MouseButton::Right;
 
 	public:  

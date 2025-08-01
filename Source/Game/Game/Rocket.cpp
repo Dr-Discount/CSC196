@@ -18,7 +18,7 @@ void Rocket::Update(float dt) {
 }
 
 void Rocket::OnCollision(Actor* other) {
-	if (tag != other->tag) {
+	if (tag != other->tag && other->tag == "enemy") {
 		destroyed = true;
 	}
 }

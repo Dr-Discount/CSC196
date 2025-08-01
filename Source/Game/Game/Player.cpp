@@ -6,6 +6,7 @@
 #include "Framework/Game.h"
 #include "Renderer/Renderer.h"
 #include "Renderer/ParticleSystem.h"
+#include "Audio/AudioSystem.h"
 #include "Input/InputSystem.h"
 #include "Math/Vector3.h"
 #include "GameData.h"
@@ -38,15 +39,16 @@ void Player::Update(float dt) {
 	transform.position.y = viper::math::wrap(transform.position.y, 0.0f, (float)viper::GetEngine().GetRenderer().GetHeight());
 
 	fireTimer -= dt;
-	if (viper::GetEngine().GetInputSystem().GetKeyDown(SDL_SCANCODE_SPACE) && fireTimer <= 0) {
+	if ((viper::GetEngine().GetInputSystem().GetKeyDown(SDL_SCANCODE_SPACE) && fireTimer || viper::GetEngine().GetInputSystem().GetMouseButtonPressed(viper::InputSystem::MouseButton::Left)) && fireTimer <= 0) {
 		fireTimer = fireTime;
+		viper::GetEngine().GetAudioSystem().PlaySound("bass");
 
 		std::shared_ptr<viper::Model> rocketM = std::make_shared < viper::Model>(GameData::playerPoints, vec3{ 255, 0, 0 });
 		viper::Transform transform{ this->transform.position, this->transform.rotation, 2 };
 		auto rocket = std::make_unique<Rocket>(transform, rocketM);
 		rocket->damping = 0.5f;
-		rocket->speed = 500.0f;
-		rocket->lifespan = 1.5f;
+		rocket->speed = 1000.0f;
+		rocket->lifespan = 0.7f;
 		rocket->name = "rocket";
 		rocket->tag = "rocket";
 
@@ -57,8 +59,10 @@ void Player::Update(float dt) {
 
 void Player::OnCollision(Actor* other) {
 	if (tag != other->tag) {
-		destroyed = true;
-		dynamic_cast<SpaceGame*>(scene->GetGame())->OnPlayerDeath();
-		std::cout << "Player destroyed" << std::endl;
+		if (other->tag == "enemy") {
+			destroyed = true;
+			dynamic_cast<SpaceGame*>(scene->GetGame())->OnPlayerDeath();
+			std::cout << "Player destroyed" << std::endl;
+		}
 	}
 }

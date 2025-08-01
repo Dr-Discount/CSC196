@@ -8,7 +8,9 @@ namespace viper {
 	class Model {
 	public:
 		Model() = default;
-		Model(const std::vector<vec2> points, const vec3& color = { 1, 1, 1 }) : m_points(points), m_color(color) {}
+		Model(const std::vector<vec2> points, const vec3& color = { 1, 1, 1 }) : m_points(points), m_color(color) {
+			CalculateRadius();
+		}
 
 		void Draw(class Renderer& renderer, const vec2& position, float rotation, float scale);
 		void Draw(class Renderer& renderer, const Transform& transform);
