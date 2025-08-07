@@ -48,7 +48,7 @@ void Player::Update(float dt) {
 		auto rocket = std::make_unique<Rocket>(transform, rocketM);
 		rocket->damping = 0.5f;
 		rocket->speed = 1000.0f;
-		rocket->lifespan = 0.7f;
+		rocket->lifespan = 0.9f;
 		rocket->name = "rocket";
 		rocket->tag = "rocket";
 

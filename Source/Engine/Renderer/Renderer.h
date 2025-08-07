@@ -2,12 +2,14 @@
 #include <iostream>
 #include <SDL3/SDL.h>
 #include <SDL3_ttf/SDL_ttf.h>
+#include <SDL3_image/SDL_image.h>
 
 
 namespace viper {
 	class Renderer {
 	public:
 		friend class Text;
+		friend class Texture;
 		Renderer() = default;
 
 		bool Initialize();
